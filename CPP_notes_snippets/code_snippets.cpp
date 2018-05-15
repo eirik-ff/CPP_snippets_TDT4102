@@ -1,4 +1,5 @@
 #include <vector>
+#include <map>
 #include <algorithm>
 #include <iostream>
 #include <fstream>
@@ -386,6 +387,29 @@ void constructors() {
 	cout << "f2: " << f2 << endl;
 }
 
+class Bar {
+private:
+	int a;
+public:
+	Bar(int a) : a(a) {}
+
+	// void setA(int a) { this->a = a; }
+	int getA() const { return a; }
+};
+
+void mapTest() {
+	map<string, vector<string>> children;
+	children["Eirik"].push_back("Oda"); // Initializes an empty vector on key Eirik
+
+	map<string, Bar> mymap;
+	// Want to insert Bar(5) at key mymap["Esso"]
+	if (mymap.find("Esso") == mymap.end()) {
+		mymap.insert(make_pair<string, Bar>("Esso", Bar(5)));
+	}
+	
+	//cout << "Key: Esso: Value: " << mymap["Esso"].getA() << endl; // Doesn't work, []-operator needs default constructor for value
+	cout << "Key: Esso: Value: " << mymap.at("Esso").getA() << endl;
+}
 
 int main() {
     //uniquePointerTest();
