@@ -329,6 +329,64 @@ public:
     string getName() override { return "Student: " + Person::getName(); }
 };
 
+class Foo {
+private:
+	int* a;
+public:
+	Foo() : Foo(0) { cout << "Default constructor" << endl; }
+	Foo(int a) : a(new int(a)) { cout << "Initializing list" << endl; }
+	
+	Foo(const Foo& other) {
+		cout << "Copy constructor" << endl;
+		this->a = new int(*(other.a));
+	}
+	
+	//Foo& operator=(Foo rhs) {
+	//	cout << "Assignment operator" << endl;
+	//	swap(a, rhs.a); // copy and swap
+	//	return *this;
+	//}
+
+	Foo& operator=(const Foo& rhs) {
+		cout << "Assignment operator" << endl;
+		this->a = new int(rhs.getA()); // Ikke copy-swap 
+		return *this;
+	}
+	
+	~Foo() {
+		cout << "Destructor" << endl;
+		delete a;
+	}
+	
+	void setA(int n) { *a = n; }
+	int getA() const { return *a; }	
+};
+
+ostream& operator<<(ostream& os, const Foo& f) {
+	os << f.getA();
+	return os;
+}
+
+void constructors() {
+	cout << "Foo f1;" << endl;
+	Foo f1; // Def
+	cout << "Foo f2 = f1;" << endl;
+	Foo f2 = f1; // Kaller kopi-konstruktør?
+	cout << endl;
+
+	cout << "f1: " << f1 << endl;
+	cout << "f2: " << f2 << endl;
+	cout << "f2.setA(5)" << endl;
+	f2.setA(5);
+	cout << "f1: " << f1 << endl;
+	cout << "f2: " << f2 << endl;
+	cout << "f1 = f2" << endl;
+	f1 = f2;
+	cout << "f1: " << f1 << endl;
+	cout << "f2: " << f2 << endl;
+}
+
+
 int main() {
     //uniquePointerTest();
 
